@@ -4,6 +4,7 @@ function getRegion(node) {
   let offset;
   let w;
   let h;
+  const bodyScale = utils.getBodyScale();
   if (!utils.isWindow(node) && node.nodeType !== 9) {
     offset = utils.offset(node);
     w = utils.outerWidth(node);
@@ -17,8 +18,10 @@ function getRegion(node) {
     w = utils.viewportWidth(win);
     h = utils.viewportHeight(win);
   }
-  offset.width = w;
-  offset.height = h;
+  offset.width = w / bodyScale.matrix[0];
+  offset.height = h / bodyScale.matrix[3];
+  offset.realWidth = w;
+  offset.realHeight = h;
   return offset;
 }
 

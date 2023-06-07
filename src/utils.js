@@ -42,6 +42,9 @@ function getClientPosition(elem) {
   let box;
   let x;
   let y;
+  const bodyScale = getBodyScale();
+  const bodyMatrix = bodyScale.matrix;
+  const bodyRect = bodyScale.rect;
   const doc = elem.ownerDocument;
   const body = doc.body;
   const docElem = doc && doc.documentElement;
@@ -52,8 +55,8 @@ function getClientPosition(elem) {
   // 但测试发现，这样反而会导致当 html 和 body 有边距/边框样式时，获取的值不正确
   // 此外，ie6 会忽略 html 的 margin 值，幸运地是没有谁会去设置 html 的 margin
 
-  x = Math.floor(box.left);
-  y = Math.floor(box.top);
+  x = Math.floor((box.left - bodyRect.left) / bodyMatrix[0]);
+  y = Math.floor((box.top - bodyRect.top) / bodyMatrix[3]);
 
   // In IE, most of the time, 2 extra pixels are added to the top and left
   // due to the implicit 2-pixel inset border.  In IE6/7 quirks mode and
@@ -561,6 +564,32 @@ function mix(to, from) {
   return to;
 }
 
+function getBodyScale() {
+  const body = document.body;
+  const bodyRect = body.getBoundingClientRect();
+  const computedStyle = window.getComputedStyle(body);
+  const transform = computedStyle.transform;
+  const transformOrigin = computedStyle.transformOrigin;
+
+  let matrix = [1, 0, 0, 1, 0, 0];
+  if (transform !== 'none') {
+    const matrixArr = transform.split(/,|\(|\)/);
+    matrix = matrixArr.slice(1, -1).map(Number);
+  }
+
+  let transformOriginVal = [0, 0];
+  if (transformOrigin) {
+    const transformOriginArr = transformOrigin.split(' ');
+    transformOriginVal = transformOriginArr.map(parseFloat);
+  }
+
+  return {
+    matrix,
+    origin: transformOriginVal,
+    rect: bodyRect,
+  };
+}
+
 const utils = {
   getWindow(node) {
     if (node && node.document && node.setTimeout) {
@@ -614,6 +643,7 @@ const utils = {
   },
   viewportWidth: 0,
   viewportHeight: 0,
+  getBodyScale,
 };
 
 mix(utils, domUtils);

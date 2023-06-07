@@ -1,19 +1,19 @@
 {
-  "name": "dom-align",
-  "version": "1.12.4",
-  "description": "Align DOM Node Flexibly ",
+  "name": "dom-align-next",
+  "version": "0.0.2",
+  "description": "Align DOM Next Version",
   "keywords": [
     "dom",
     "align"
   ],
-  "homepage": "http://github.com/yiminghe/dom-align",
-  "author": "yiminghe@gmail.com",
+  "homepage": "https://github.com/JessonLiou/dom-align-next",
+  "author": "liujiasheng@outlook.com",
   "repository": {
     "type": "git",
-    "url": "git@github.com:yiminghe/dom-align.git"
+    "url": "git@github.com:JessonLiou/dom-align-next.git"
   },
   "bugs": {
-    "url": "http://github.com/yiminghe/dom-align/issues"
+    "url": "https://github.com/JessonLiou/dom-align-next/issues"
   },
   "license": "MIT",
   "config": {
