@@ -27,9 +27,9 @@ function getVisibleRectForElement(element, alwaysByViewport) {
       // body may have overflow set on it, yet we still get the entire
       // viewport. In some browsers, el.offsetParent may be
       // document.documentElement, so check for that too.
-      (el !== body &&
+      el !== body &&
         el !== documentElement &&
-        utils.css(el, 'overflow') !== 'visible')
+        utils.css(el, 'overflow') !== 'visible'
     ) {
       const pos = utils.offset(el);
       // add border
@@ -86,18 +86,32 @@ function getVisibleRectForElement(element, alwaysByViewport) {
     element.style.position = originalPosition;
   }
 
+  const bodyScale = utils.getBodyScale();
+
   if (alwaysByViewport || isAncestorFixed(element)) {
     // Clip by viewport's size.
     visibleRect.left = Math.max(visibleRect.left, scrollX);
     visibleRect.top = Math.max(visibleRect.top, scrollY);
-    visibleRect.right = Math.min(visibleRect.right, scrollX + viewportWidth);
-    visibleRect.bottom = Math.min(visibleRect.bottom, scrollY + viewportHeight);
+    visibleRect.right = Math.min(
+      visibleRect.right,
+      scrollX + viewportWidth / bodyScale.matrix[0],
+    );
+    visibleRect.bottom = Math.min(
+      visibleRect.bottom,
+      scrollY + viewportHeight / bodyScale.matrix[3],
+    );
   } else {
     // Clip by document's size.
-    const maxVisibleWidth = Math.max(documentWidth, scrollX + viewportWidth);
+    const maxVisibleWidth = Math.max(
+      documentWidth,
+      scrollX + viewportWidth / bodyScale.matrix[0],
+    );
     visibleRect.right = Math.min(visibleRect.right, maxVisibleWidth);
 
-    const maxVisibleHeight = Math.max(documentHeight, scrollY + viewportHeight);
+    const maxVisibleHeight = Math.max(
+      documentHeight,
+      scrollY + viewportHeight / bodyScale.matrix[3],
+    );
     visibleRect.bottom = Math.min(visibleRect.bottom, maxVisibleHeight);
   }
 
