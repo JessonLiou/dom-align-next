@@ -9,30 +9,28 @@ import getElFuturePos from '../getElFuturePos';
 function isFailX(elFuturePos, elRegion, visibleRect) {
   return (
     elFuturePos.left < visibleRect.left ||
-    elFuturePos.left + (elRegion.realWidth || elRegion.width) >
-      visibleRect.right
+    elFuturePos.left + elRegion.width > visibleRect.right
   );
 }
 
 function isFailY(elFuturePos, elRegion, visibleRect) {
   return (
     elFuturePos.top < visibleRect.top ||
-    elFuturePos.top + (elRegion.realHeight || elRegion.height) >
-      visibleRect.bottom
+    elFuturePos.top + elRegion.height > visibleRect.bottom
   );
 }
 
 function isCompleteFailX(elFuturePos, elRegion, visibleRect) {
   return (
     elFuturePos.left > visibleRect.right ||
-    elFuturePos.left + (elRegion.realWidth || elRegion.width) < visibleRect.left
+    elFuturePos.left + elRegion.width < visibleRect.left
   );
 }
 
 function isCompleteFailY(elFuturePos, elRegion, visibleRect) {
   return (
     elFuturePos.top > visibleRect.bottom ||
-    elFuturePos.top + (elRegion.realHeight || elRegion.height) < visibleRect.top
+    elFuturePos.top + elRegion.height < visibleRect.top
   );
 }
 
