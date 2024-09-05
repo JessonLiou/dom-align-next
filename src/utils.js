@@ -42,7 +42,7 @@ function getClientPosition(elem) {
   let box;
   let x;
   let y;
-  const bodyScale = getBodyScale();
+  const bodyScale = getBodyScale(elem);
   const bodyMatrix = bodyScale.matrix;
   const bodyRect = bodyScale.rect;
   const doc = elem.ownerDocument;
@@ -564,8 +564,14 @@ function mix(to, from) {
   return to;
 }
 
-function getBodyScale() {
-  const body = document.body;
+function getBodyScale(elem) {
+  let body = document.body;
+  if (elem) {
+    const parent = elem.closest('.dom-align-body');
+    if (parent) {
+      body = parent;
+    }
+  }
   const bodyRect = body.getBoundingClientRect();
   const computedStyle = window.getComputedStyle(body);
   const transform = computedStyle.transform;

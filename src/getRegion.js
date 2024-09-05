@@ -4,7 +4,7 @@ function getRegion(node) {
   let offset;
   let w;
   let h;
-  const bodyScale = utils.getBodyScale();
+  const bodyScale = utils.getBodyScale(node);
   if (!utils.isWindow(node) && node.nodeType !== 9) {
     offset = utils.offset(node);
     w = utils.outerWidth(node);

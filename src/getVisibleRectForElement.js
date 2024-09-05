@@ -28,8 +28,8 @@ function getVisibleRectForElement(element, alwaysByViewport) {
       // viewport. In some browsers, el.offsetParent may be
       // document.documentElement, so check for that too.
       el !== body &&
-        el !== documentElement &&
-        utils.css(el, 'overflow') !== 'visible'
+      el !== documentElement &&
+      utils.css(el, 'overflow') !== 'visible'
     ) {
       const pos = utils.offset(el);
       // add border
@@ -86,7 +86,7 @@ function getVisibleRectForElement(element, alwaysByViewport) {
     element.style.position = originalPosition;
   }
 
-  const bodyScale = utils.getBodyScale();
+  const bodyScale = utils.getBodyScale(element);
 
   if (alwaysByViewport || isAncestorFixed(element)) {
     // Clip by viewport's size.
