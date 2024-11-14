@@ -481,6 +481,10 @@ function getWH(elem, name, ex) {
     }
     // Normalize '', auto, and prepare for extra
     cssBoxValue = Math.floor(parseFloat(cssBoxValue)) || 0;
+
+    const bodyScale = getBodyScale();
+
+    cssBoxValue = cssBoxValue * bodyScale.matrix[name === 'width' ? 0 : 3];
   }
   if (extra === undefined) {
     extra = isBorderBox ? BORDER_INDEX : CONTENT_INDEX;
